@@ -1,5 +1,5 @@
-import com.pillar.kata.InvalidFileFormatException;
-import com.pillar.kata.WordSearch;
+package com.pillar.kata;
+
 import org.junit.Test;
 
 import java.io.File;

@@ -28,4 +28,14 @@ public class WordSearchTest {
         var wordSearch = new WordSearch();
         wordSearch.search(new File(getClass().getClassLoader().getResource("SampleSearchOnlyHeader.txt").getFile()));
     }
+
+    @Test
+    public void testWordSearchGridShouldBeASquare() throws Exception {
+        expectedException.expect(InvalidFileFormatException.class);
+        expectedException.expectMessage("Word Search Grid must be a square");
+
+        var wordSearch = new WordSearch();
+        wordSearch.search(new File(getClass().getClassLoader().getResource("SampleSearchNotSquare.txt").getFile()));
+
+    }
 }

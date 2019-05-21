@@ -6,10 +6,6 @@ import java.nio.file.Files;
 import java.util.List;
 
 public class WordSearch {
-    public WordSearch() {
-
-    }
-
     public void search(File file) throws InvalidFileFormatException {
         if (!file.exists()) {
             throw new InvalidFileFormatException("Word Search File Not Found");

@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class WordSearch {
     public List<String> search(File file) throws InvalidFileFormatException, IOException {
@@ -17,10 +19,15 @@ public class WordSearch {
         String[] wordsToSearch = entireFile.get(0).split(",");
         entireFile.remove(0);
         for (String wordToFind : wordsToSearch) {
-            for (String line : entireFile) {
+            for (int lineNumber = 0; lineNumber < entireFile.size(); lineNumber++) {
+                String line = entireFile.get(lineNumber);
                 String formattedLine = line.replace(",", "");
                 if (formattedLine.contains(wordToFind)) {
-                    foundWords.add(wordToFind);
+                    final int y = lineNumber;
+                    String coordinates = IntStream.range(formattedLine.indexOf(wordToFind), wordToFind.length())
+                            .mapToObj(x -> String.format("(%s,%s)", x, y))
+                            .collect(Collectors.joining(","));
+                    foundWords.add(String.format("%s: %s", wordToFind, coordinates));
                     break;
                 }
             }

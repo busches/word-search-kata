@@ -46,7 +46,7 @@ public class WordSearchTest {
         var wordSearch = new WordSearch();
         List<String> wordsFound = wordSearch.search(new File(getClass().getClassLoader().getResource("SampleSearchOneWord.txt").getFile()));
         assertEquals(1, wordsFound.size());
-        assertEquals("SCOTTY", wordsFound.get(0));
+        assertEquals("SCOTTY: (0,5),(1,5),(2,5),(3,5),(4,5),(5,5)", wordsFound.get(0));
     }
 
 }

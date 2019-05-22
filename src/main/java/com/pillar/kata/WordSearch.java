@@ -7,6 +7,10 @@ import java.util.List;
 
 public class WordSearch {
     public void search(File file) throws InvalidFileFormatException {
+        validateInput(file);
+    }
+
+    private void validateInput(File file) throws InvalidFileFormatException {
         if (!file.exists()) {
             throw new InvalidFileFormatException("Word Search File Not Found");
         } else {

@@ -1,25 +1,34 @@
 package com.pillar.kata;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.net.URL;
 import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 
 public class WordSearchTest {
 
+    private WordSearch wordSearch;
+
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
+
+    @Before
+    public void before() {
+        wordSearch = new WordSearch();
+    }
 
     @Test
     public void testWordSearchRequiresFile() throws Exception {
         expectedException.expect(InvalidFileFormatException.class);
         expectedException.expectMessage("Word Search File Not Found");
 
-        var wordSearch = new WordSearch();
         wordSearch.search(new File(""));
     }
 
@@ -28,8 +37,7 @@ public class WordSearchTest {
         expectedException.expect(InvalidFileFormatException.class);
         expectedException.expectMessage("Word Search must contain at least three lines");
 
-        var wordSearch = new WordSearch();
-        wordSearch.search(new File(getClass().getClassLoader().getResource("SampleSearchOnlyHeader.txt").getFile()));
+        wordSearch.search(loadFile("SampleSearchOnlyHeader.txt"));
     }
 
     @Test
@@ -37,16 +45,22 @@ public class WordSearchTest {
         expectedException.expect(InvalidFileFormatException.class);
         expectedException.expectMessage("Word Search Grid must be a square");
 
-        var wordSearch = new WordSearch();
-        wordSearch.search(new File(getClass().getClassLoader().getResource("SampleSearchNotSquare.txt").getFile()));
+        wordSearch.search(loadFile("SampleSearchNotSquare.txt"));
     }
 
     @Test
     public void testWordSearchFindsWordHorizontally() throws Exception {
-        var wordSearch = new WordSearch();
-        List<String> wordsFound = wordSearch.search(new File(getClass().getClassLoader().getResource("SampleSearchOneWord.txt").getFile()));
+        List<String> wordsFound = wordSearch.search(loadFile("SampleSearchOneWord.txt"));
         assertEquals(1, wordsFound.size());
         assertEquals("SCOTTY: (0,5),(1,5),(2,5),(3,5),(4,5),(5,5)", wordsFound.get(0));
     }
 
+    private File loadFile(String fileName) throws FileNotFoundException {
+        URL resource = getClass().getClassLoader().getResource(fileName);
+        if (resource != null) {
+            return new File(resource.getFile());
+        } else {
+            throw new FileNotFoundException();
+        }
+    }
 }

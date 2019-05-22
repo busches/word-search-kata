@@ -5,6 +5,9 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import java.io.File;
+import java.util.List;
+
+import static junit.framework.TestCase.assertEquals;
 
 public class WordSearchTest {
 
@@ -36,6 +39,14 @@ public class WordSearchTest {
 
         var wordSearch = new WordSearch();
         wordSearch.search(new File(getClass().getClassLoader().getResource("SampleSearchNotSquare.txt").getFile()));
-
     }
+
+    @Test
+    public void testWordSearchFindsWordHorizontally() throws Exception {
+        var wordSearch = new WordSearch();
+        List<String> wordsFound = wordSearch.search(new File(getClass().getClassLoader().getResource("SampleSearchOneWord.txt").getFile()));
+        assertEquals(1, wordsFound.size());
+        assertEquals("SCOTTY", wordsFound.get(0));
+    }
+
 }

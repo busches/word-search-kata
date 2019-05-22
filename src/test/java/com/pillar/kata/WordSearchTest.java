@@ -7,8 +7,6 @@ import org.junit.rules.ExpectedException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.net.URL;
-import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 
@@ -50,13 +48,13 @@ public class WordSearchTest {
 
     @Test
     public void testWordSearchFindsWordHorizontally() throws Exception {
-        List<String> wordsFound = wordSearch.search(loadFile("SampleSearchOneWord.txt"));
+        var wordsFound = wordSearch.search(loadFile("SampleSearchOneWord.txt"));
         assertEquals(1, wordsFound.size());
         assertEquals("SCOTTY: (0,5),(1,5),(2,5),(3,5),(4,5),(5,5)", wordsFound.get(0));
     }
 
     private File loadFile(String fileName) throws FileNotFoundException {
-        URL resource = getClass().getClassLoader().getResource(fileName);
+        var resource = getClass().getClassLoader().getResource(fileName);
         if (resource != null) {
             return new File(resource.getFile());
         } else {

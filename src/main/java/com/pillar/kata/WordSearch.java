@@ -15,16 +15,17 @@ public class WordSearch {
         // This should likely return a List<String, List<Coordinate>> but keeping it simple for now
         List<String> foundWords = new ArrayList<>();
 
-        List<String> entireFile = Files.readAllLines(file.toPath());
-        String[] wordsToSearch = entireFile.get(0).split(",");
+        var entireFile = Files.readAllLines(file.toPath());
+        var wordsToSearch = entireFile.get(0).split(",");
         entireFile.remove(0);
-        for (String wordToFind : wordsToSearch) {
+
+        for (var wordToFind : wordsToSearch) {
             for (int lineNumber = 0; lineNumber < entireFile.size(); lineNumber++) {
-                String line = entireFile.get(lineNumber);
-                String formattedLine = line.replace(",", "");
+                var line = entireFile.get(lineNumber);
+                var formattedLine = line.replace(",", "");
                 if (formattedLine.contains(wordToFind)) {
-                    final int y = lineNumber;
-                    String coordinates = IntStream.range(formattedLine.indexOf(wordToFind), wordToFind.length())
+                    final var y = lineNumber;
+                    var coordinates = IntStream.range(formattedLine.indexOf(wordToFind), wordToFind.length())
                             .mapToObj(x -> String.format("(%s,%s)", x, y))
                             .collect(Collectors.joining(","));
                     foundWords.add(String.format("%s: %s", wordToFind, coordinates));

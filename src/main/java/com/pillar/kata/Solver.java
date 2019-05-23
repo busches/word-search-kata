@@ -12,6 +12,7 @@ public class Solver {
         List<String> foundWords = new ArrayList<>();
         var grid = wordSearch.getGrid();
         foundWords.addAll(searchWordsHorizontally(wordSearch, grid));
+        foundWords.addAll(searchWordsVertically(wordSearch, grid));
 
         return foundWords;
     }
@@ -29,6 +30,38 @@ public class Solver {
                             .collect(Collectors.joining(","));
                     foundWords.add(String.format("%s: %s", wordToFind, coordinates));
                     break;
+                }
+            }
+        }
+        return foundWords;
+    }
+
+    private List<String> searchWordsVertically(WordSearch wordSearch, List<String> grid) {
+        List<String> foundWords = new ArrayList<>();
+        for (var wordToFind : wordSearch.getWordsToSearch()) {
+            for (int y = 0; y < grid.size(); y++) {
+                // Stop before we attempt to search out of bounds
+                if (y + wordToFind.length() > grid.size()) {
+                    break;
+                }
+                for (int x = 0; x < grid.size(); x++) {
+                    var foundWord = true;
+                    var coordinates = "";
+                    for (int letterPosition = 0; letterPosition < wordToFind.length(); letterPosition++) {
+                        if (grid.get(y + letterPosition).split(",")[x].equals(wordToFind.substring(letterPosition, letterPosition + 1))) {
+                            coordinates += String.format("(%s,%s)", x, y + letterPosition);
+                            if (letterPosition != wordToFind.length() - 1) {
+                                coordinates += ",";
+                            }
+                        } else {
+                            foundWord = false;
+                            break;
+                        }
+                    }
+                    if (foundWord) {
+                        foundWords.add(String.format("%s: %s", wordToFind, coordinates));
+                    }
+
                 }
             }
         }

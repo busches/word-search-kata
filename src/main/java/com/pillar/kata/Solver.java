@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class WordSearch {
-    public List<String> search(File file) throws InvalidFileFormatException, IOException {
+public class Solver {
+    public List<String> solve(File file) throws InvalidFileFormatException, IOException {
         validateInput(file);
 
         // This should likely return a List<String, List<Coordinate>> but keeping it simple for now

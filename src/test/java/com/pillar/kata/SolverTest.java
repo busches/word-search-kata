@@ -10,16 +10,16 @@ import java.io.FileNotFoundException;
 
 import static junit.framework.TestCase.assertEquals;
 
-public class WordSearchTest {
+public class SolverTest {
 
-    private WordSearch wordSearch;
+    private Solver solver;
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
     @Before
     public void before() {
-        wordSearch = new WordSearch();
+        solver = new Solver();
     }
 
     @Test
@@ -27,7 +27,7 @@ public class WordSearchTest {
         expectedException.expect(InvalidFileFormatException.class);
         expectedException.expectMessage("Word Search File Not Found");
 
-        wordSearch.search(new File(""));
+        solver.solve(new File(""));
     }
 
     @Test
@@ -35,7 +35,7 @@ public class WordSearchTest {
         expectedException.expect(InvalidFileFormatException.class);
         expectedException.expectMessage("Word Search must contain at least three lines");
 
-        wordSearch.search(loadFile("SampleSearchOnlyHeader.txt"));
+        solver.solve(loadFile("SampleSearchOnlyHeader.txt"));
     }
 
     @Test
@@ -43,12 +43,12 @@ public class WordSearchTest {
         expectedException.expect(InvalidFileFormatException.class);
         expectedException.expectMessage("Word Search Grid must be a square");
 
-        wordSearch.search(loadFile("SampleSearchNotSquare.txt"));
+        solver.solve(loadFile("SampleSearchNotSquare.txt"));
     }
 
     @Test
     public void testWordSearchFindsWordHorizontally() throws Exception {
-        var wordsFound = wordSearch.search(loadFile("SampleSearchOneWord.txt"));
+        var wordsFound = solver.solve(loadFile("SampleSearchOneWord.txt"));
         assertEquals(1, wordsFound.size());
         assertEquals("SCOTTY: (0,5),(1,5),(2,5),(3,5),(4,5),(5,5)", wordsFound.get(0));
     }

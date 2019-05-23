@@ -11,7 +11,13 @@ public class Solver {
         // This should likely return a List<String, List<Coordinate>> but keeping it simple for now
         List<String> foundWords = new ArrayList<>();
         var grid = wordSearch.getGrid();
+        foundWords.addAll(searchWordsHorizontally(wordSearch, grid));
 
+        return foundWords;
+    }
+
+    private List<String> searchWordsHorizontally(WordSearch wordSearch, List<String> grid) {
+        List<String> foundWords = new ArrayList<>();
         for (var wordToFind : wordSearch.getWordsToSearch()) {
             for (int lineNumber = 0; lineNumber < grid.size(); lineNumber++) {
                 var line = grid.get(lineNumber);
@@ -26,7 +32,6 @@ public class Solver {
                 }
             }
         }
-
         return foundWords;
     }
 }

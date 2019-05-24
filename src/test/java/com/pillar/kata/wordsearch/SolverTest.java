@@ -53,6 +53,13 @@ public class SolverTest {
         assertEquals("KIRK: (4,7),(3,7),(2,7),(1,7)", wordsFound.get(0));
     }
 
+    @Test
+    public void testWordSearchFindsWordVerticalReverse() throws Exception {
+        var wordsFound = solver.solve(new WordSearch(loadFile("SampleSearchVerticalReverse.txt")));
+        assertEquals(1, wordsFound.size());
+        assertEquals("KHAN: (5,9),(5,8),(5,7),(5,6)", wordsFound.get(0));
+    }
+
     private File loadFile(String fileName) throws FileNotFoundException {
         var resource = getClass().getClassLoader().getResource(fileName);
         if (resource != null) {

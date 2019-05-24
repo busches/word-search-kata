@@ -2,6 +2,7 @@ package com.pillar.kata.wordsearch;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Solver {
     public List<String> solve(WordSearch wordSearch) {
@@ -14,14 +15,13 @@ public class Solver {
         List<String> foundWords = new ArrayList<>();
         for (var wordToFind : wordSearch.getWordsToSearch()) {
             for (var searchStrategy : SearchStrategy.values()) {
-                foundWords.addAll(searchGrid(grid, wordToFind, searchStrategy));
+                searchGrid(grid, wordToFind, searchStrategy).ifPresent(foundWords::add);
             }
         }
         return foundWords;
     }
 
-    private List<String> searchGrid(List<String> grid, String wordToFind, SearchStrategy searchStrategy) {
-        List<String> foundWords = new ArrayList<>();
+    private Optional<String> searchGrid(List<String> grid, String wordToFind, SearchStrategy searchStrategy) {
         for (var x = 0; x < grid.size(); x++) {
             // Skip this column if X will be out of bounds to find the entire word
             if (x + wordToFind.length() * searchStrategy.xIncrement() > grid.size() || x + wordToFind.length() * searchStrategy.xIncrement() + 1 < 0) {
@@ -48,10 +48,10 @@ public class Solver {
                     }
                 }
                 if (foundWord) {
-                    foundWords.add(String.format("%s: %s", wordToFind, coordinates));
+                    return Optional.of(String.format("%s: %s", wordToFind, coordinates));
                 }
             }
         }
-        return foundWords;
+        return Optional.empty();
     }
 }

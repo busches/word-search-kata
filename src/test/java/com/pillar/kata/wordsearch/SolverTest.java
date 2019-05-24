@@ -46,6 +46,13 @@ public class SolverTest {
         assertEquals("EXH: (12,14),(13,13),(14,12)", wordsFound.get(1));
     }
 
+    @Test
+    public void testWordSearchFindsWordHorizontalReverse() throws Exception {
+        var wordsFound = solver.solve(new WordSearch(loadFile("SampleSearchHorizontalReverse.txt")));
+        assertEquals(1, wordsFound.size());
+        assertEquals("KIRK: (4,7),(3,7),(2,7),(1,7)", wordsFound.get(0));
+    }
+
     private File loadFile(String fileName) throws FileNotFoundException {
         var resource = getClass().getClassLoader().getResource(fileName);
         if (resource != null) {

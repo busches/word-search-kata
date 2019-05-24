@@ -74,6 +74,20 @@ public class SolverTest {
         assertEquals("SULU: (3,3),(2,2),(1,1),(0,0)", wordsFound.get(0));
     }
 
+    @Test
+    public void testWordSearchFindsAllTypes() throws Exception {
+        var wordsFound = solver.solve(new WordSearch(loadFile("SampleSearchAllTypes.txt")));
+        assertEquals(8, wordsFound.size());
+        assertEquals("BONES: (0,6),(0,7),(0,8),(0,9),(0,10)", wordsFound.get(0));
+        assertEquals("KHAN: (5,9),(5,8),(5,7),(5,6)", wordsFound.get(1));
+        assertEquals("KIRK: (4,7),(3,7),(2,7),(1,7)", wordsFound.get(2));
+        assertEquals("SCOTTY: (0,5),(1,5),(2,5),(3,5),(4,5),(5,5)", wordsFound.get(3));
+        assertEquals("SPOCK: (2,1),(3,2),(4,3),(5,4),(6,5)", wordsFound.get(4));
+        assertEquals("SULU: (3,3),(2,2),(1,1),(0,0)", wordsFound.get(5));
+        assertEquals("UHURA: (4,0),(3,1),(2,2),(1,3),(0,4)", wordsFound.get(6));
+        assertEquals("BSSH: (0,3),(1,2),(2,1),(3,0)", wordsFound.get(7));
+    }
+
     private File loadFile(String fileName) throws FileNotFoundException {
         var resource = getClass().getClassLoader().getResource(fileName);
         if (resource != null) {

@@ -14,33 +14,39 @@ public class Solver {
         List<String> foundWords = new ArrayList<>();
         for (var wordToFind : wordSearch.getWordsToSearch()) {
             for (var searchStrategy : SearchStrategy.values()) {
-                for (int x = 0; x < grid.size(); x++) {
-                    // Validate X out of bounds
-                    if (x + wordToFind.length() * searchStrategy.xIncrement() > grid.size() || x + wordToFind.length() * searchStrategy.xIncrement() + 1 < 0) {
-                        continue;
+                foundWords.addAll(searchGrid(grid, wordToFind, searchStrategy));
+            }
+        }
+        return foundWords;
+    }
+
+    private List<String> searchGrid(List<String> grid, String wordToFind, SearchStrategy searchStrategy) {
+        List<String> foundWords = new ArrayList<>();
+        for (int x = 0; x < grid.size(); x++) {
+            // Validate X out of bounds
+            if (x + wordToFind.length() * searchStrategy.xIncrement() > grid.size() || x + wordToFind.length() * searchStrategy.xIncrement() + 1 < 0) {
+                continue;
+            }
+            for (int y = 0; y < grid.size(); y++) {
+                // Validate Y out of bounds
+                if (y + wordToFind.length() * searchStrategy.yIncrement() > grid.size() || y + wordToFind.length() * searchStrategy.yIncrement() + 1 < 0) {
+                    continue;
+                }
+                var foundWord = true;
+                var coordinates = "";
+                for (int letterPosition = 0; letterPosition < wordToFind.length(); letterPosition++) {
+                    if (grid.get(y + letterPosition * searchStrategy.yIncrement()).split(",")[x + letterPosition * searchStrategy.xIncrement()].equals(wordToFind.substring(letterPosition, letterPosition + 1))) {
+                        coordinates += String.format("(%s,%s)", x + letterPosition * searchStrategy.xIncrement(), y + letterPosition * searchStrategy.yIncrement());
+                        if (letterPosition != wordToFind.length() - 1) {
+                            coordinates += ",";
+                        }
+                    } else {
+                        foundWord = false;
+                        break;
                     }
-                    for (int y = 0; y < grid.size(); y++) {
-                        // Validate Y out of bounds
-                        if (y + wordToFind.length() * searchStrategy.yIncrement() > grid.size() || y + wordToFind.length() * searchStrategy.yIncrement() + 1 < 0) {
-                            continue;
-                        }
-                        var foundWord = true;
-                        var coordinates = "";
-                        for (int letterPosition = 0; letterPosition < wordToFind.length(); letterPosition++) {
-                            if (grid.get(y + letterPosition * searchStrategy.yIncrement()).split(",")[x + letterPosition * searchStrategy.xIncrement()].equals(wordToFind.substring(letterPosition, letterPosition + 1))) {
-                                coordinates += String.format("(%s,%s)", x + letterPosition * searchStrategy.xIncrement(), y + letterPosition * searchStrategy.yIncrement());
-                                if (letterPosition != wordToFind.length() - 1) {
-                                    coordinates += ",";
-                                }
-                            } else {
-                                foundWord = false;
-                                break;
-                            }
-                        }
-                        if (foundWord) {
-                            foundWords.add(String.format("%s: %s", wordToFind, coordinates));
-                        }
-                    }
+                }
+                if (foundWord) {
+                    foundWords.add(String.format("%s: %s", wordToFind, coordinates));
                 }
             }
         }

@@ -11,7 +11,6 @@ public class WordSearchTest {
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
-
     @Test
     public void testWordSearchRequiresFile() throws Exception {
         expectedException.expect(InvalidFileFormatException.class);

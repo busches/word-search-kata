@@ -31,6 +31,13 @@ public class SolverTest {
         assertEquals("BONES: (0,6),(0,7),(0,8),(0,9),(0,10)", wordsFound.get(0));
     }
 
+    @Test
+    public void testWordSearchFindsWordDiagonallyDescending() throws Exception {
+        var wordsFound = solver.solve(new WordSearch(loadFile("SampleSearchDiagonalDescendingWord.txt")));
+        assertEquals(1, wordsFound.size());
+        assertEquals("SPOCK: (2,1),(3,2),(4,3),(5,4),(6,5)", wordsFound.get(0));
+    }
+
 
     private File loadFile(String fileName) throws FileNotFoundException {
         var resource = getClass().getClassLoader().getResource(fileName);

@@ -11,7 +11,6 @@ public class WordSearch {
     private final List<String> grid;
     private final String[] wordsToSearch;
 
-
     WordSearch(File rawWordSearch) throws InvalidFileFormatException, IOException {
         validateInput(rawWordSearch);
         var entireFile = Files.readAllLines(rawWordSearch.toPath());

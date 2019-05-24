@@ -6,6 +6,7 @@ public enum SearchStrategy {
     VERTICAL(0, 1),
     VERTICAL_REVERSE(0, -1),
     DIAGONAL_DESCENDING(1, 1),
+    DIAGONAL_DESCENDING_REVERSE(-1, 1),
     DIAGONAL_ASCENDING(1, -1),
     ;
 

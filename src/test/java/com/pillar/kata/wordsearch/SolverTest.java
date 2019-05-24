@@ -60,6 +60,13 @@ public class SolverTest {
         assertEquals("KHAN: (5,9),(5,8),(5,7),(5,6)", wordsFound.get(0));
     }
 
+    @Test
+    public void testWordSearchFindsWordDiagonallyDescendingReverse() throws Exception {
+        var wordsFound = solver.solve(new WordSearch(loadFile("SampleSearchDiagonalDescendingReverse.txt")));
+        assertEquals(1, wordsFound.size());
+        assertEquals("UHURA: (4,0),(3,1),(2,2),(1,3),(0,4)", wordsFound.get(0));
+    }
+
     private File loadFile(String fileName) throws FileNotFoundException {
         var resource = getClass().getClassLoader().getResource(fileName);
         if (resource != null) {

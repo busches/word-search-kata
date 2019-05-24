@@ -1,8 +1,10 @@
 package com.pillar.kata.wordsearch;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Solver {
     public List<String> solve(WordSearch wordSearch) {
@@ -12,13 +14,18 @@ public class Solver {
     }
 
     private List<String> searchWords(WordSearch wordSearch, List<String> grid) {
-        List<String> foundWords = new ArrayList<>();
-        for (var wordToFind : wordSearch.getWordsToSearch()) {
-            for (var searchStrategy : SearchStrategy.values()) {
-                searchGrid(grid, wordToFind, searchStrategy).ifPresent(foundWords::add);
-            }
-        }
-        return foundWords;
+        return Arrays.stream(wordSearch.getWordsToSearch())
+                .map(wordToFind -> searchByStrategy(wordToFind, grid))
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
+    }
+
+    private List<String> searchByStrategy(String wordToFind, List<String> grid) {
+        return Arrays.stream(SearchStrategy.values())
+                .map(searchStrategy -> searchGrid(grid, wordToFind, searchStrategy))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
     }
 
     private Optional<String> searchGrid(List<String> grid, String wordToFind, SearchStrategy searchStrategy) {

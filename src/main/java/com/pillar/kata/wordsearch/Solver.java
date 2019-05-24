@@ -16,13 +16,13 @@ public class Solver {
             for (var searchStrategy : SearchStrategy.values()) {
                 for (int x = 0; x < grid.size(); x++) {
                     // Validate X out of bounds
-                    if (x + wordToFind.length() * searchStrategy.xIncrement() > grid.size() || x + wordToFind.length() * searchStrategy.xIncrement() < 0) {
-                        break;
+                    if (x + wordToFind.length() * searchStrategy.xIncrement() > grid.size() || x + wordToFind.length() * searchStrategy.xIncrement() + 1 < 0) {
+                        continue;
                     }
                     for (int y = 0; y < grid.size(); y++) {
                         // Validate Y out of bounds
-                        if (y + wordToFind.length() * searchStrategy.yIncrement() > grid.size() || y + wordToFind.length() * searchStrategy.yIncrement() < 0) {
-                            break;
+                        if (y + wordToFind.length() * searchStrategy.yIncrement() > grid.size() || y + wordToFind.length() * searchStrategy.yIncrement() + 1 < 0) {
+                            continue;
                         }
                         var foundWord = true;
                         var coordinates = "";

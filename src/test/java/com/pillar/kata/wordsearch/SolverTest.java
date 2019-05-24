@@ -38,6 +38,13 @@ public class SolverTest {
         assertEquals("SPOCK: (2,1),(3,2),(4,3),(5,4),(6,5)", wordsFound.get(0));
     }
 
+    @Test
+    public void testWordSearchFindsWordDiagonallyAscending() throws Exception {
+        var wordsFound = solver.solve(new WordSearch(loadFile("SampleSearchDiagonalAscendingWord.txt")));
+        assertEquals(2, wordsFound.size());
+        assertEquals("BSSH: (0,3),(1,2),(2,1),(3,0)", wordsFound.get(0));
+        assertEquals("EXH: (12,14),(13,13),(14,12)", wordsFound.get(1));
+    }
 
     private File loadFile(String fileName) throws FileNotFoundException {
         var resource = getClass().getClassLoader().getResource(fileName);

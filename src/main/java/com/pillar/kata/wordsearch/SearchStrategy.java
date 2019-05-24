@@ -3,7 +3,9 @@ package com.pillar.kata.wordsearch;
 public enum SearchStrategy {
     HORIZONTAL(1, 0),
     VERTICAL(0, 1),
-    DIAGONAL_DESCENDING(1, 1);
+    DIAGONAL_DESCENDING(1, 1),
+    DIAGONAL_ASCENDING(1, -1),
+    ;
 
     private int xIncrement;
     private int yIncrement;

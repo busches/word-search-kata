@@ -1,4 +1,4 @@
-package com.pillar.kata;
+package com.pillar.kata.wordsearch;
 
 import java.io.File;
 import java.io.IOException;

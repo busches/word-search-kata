@@ -1,4 +1,4 @@
-package com.pillar.kata;
+package com.pillar.kata.wordsearch;
 
 import java.util.ArrayList;
 import java.util.List;

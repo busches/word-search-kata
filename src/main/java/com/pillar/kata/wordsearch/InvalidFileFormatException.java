@@ -1,4 +1,4 @@
-package com.pillar.kata;
+package com.pillar.kata.wordsearch;
 
 public class InvalidFileFormatException extends Exception {
 

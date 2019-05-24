@@ -1,4 +1,4 @@
-package com.pillar.kata;
+package com.pillar.kata.wordsearch;
 
 import org.junit.Before;
 import org.junit.Test;

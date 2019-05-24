@@ -24,7 +24,7 @@ public class WordSearchTest {
         expectedException.expect(InvalidFileFormatException.class);
         expectedException.expectMessage("Word Search must contain at least three lines");
 
-        new WordSearch(loadFile("SampleSearchOnlyHeader.txt"));
+        new WordSearch(loadFile("InvalidOnlyHeader.txt"));
     }
 
     @Test
@@ -32,7 +32,7 @@ public class WordSearchTest {
         expectedException.expect(InvalidFileFormatException.class);
         expectedException.expectMessage("Word Search Grid must be a square");
 
-        new WordSearch(loadFile("SampleSearchNotSquare.txt"));
+        new WordSearch(loadFile("InvalidNotSquare.txt"));
     }
 
     private File loadFile(String fileName) throws FileNotFoundException {

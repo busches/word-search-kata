@@ -22,21 +22,23 @@ public class Solver {
 
     private List<String> searchGrid(List<String> grid, String wordToFind, SearchStrategy searchStrategy) {
         List<String> foundWords = new ArrayList<>();
-        for (int x = 0; x < grid.size(); x++) {
+        for (var x = 0; x < grid.size(); x++) {
             // Validate X out of bounds
             if (x + wordToFind.length() * searchStrategy.xIncrement() > grid.size() || x + wordToFind.length() * searchStrategy.xIncrement() + 1 < 0) {
                 continue;
             }
-            for (int y = 0; y < grid.size(); y++) {
+            for (var y = 0; y < grid.size(); y++) {
                 // Validate Y out of bounds
                 if (y + wordToFind.length() * searchStrategy.yIncrement() > grid.size() || y + wordToFind.length() * searchStrategy.yIncrement() + 1 < 0) {
                     continue;
                 }
                 var foundWord = true;
                 var coordinates = "";
-                for (int letterPosition = 0; letterPosition < wordToFind.length(); letterPosition++) {
-                    if (grid.get(y + letterPosition * searchStrategy.yIncrement()).split(",")[x + letterPosition * searchStrategy.xIncrement()].equals(wordToFind.substring(letterPosition, letterPosition + 1))) {
-                        coordinates += String.format("(%s,%s)", x + letterPosition * searchStrategy.xIncrement(), y + letterPosition * searchStrategy.yIncrement());
+                for (var letterPosition = 0; letterPosition < wordToFind.length(); letterPosition++) {
+                    var currentX = x + letterPosition * searchStrategy.xIncrement();
+                    var currentY = y + letterPosition * searchStrategy.yIncrement();
+                    if (grid.get(currentY).split(",")[currentX].equals(wordToFind.substring(letterPosition, letterPosition + 1))) {
+                        coordinates += String.format("(%s,%s)", currentX, currentY);
                         if (letterPosition != wordToFind.length() - 1) {
                             coordinates += ",";
                         }

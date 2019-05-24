@@ -8,6 +8,7 @@ public enum SearchStrategy {
     DIAGONAL_DESCENDING(1, 1),
     DIAGONAL_DESCENDING_REVERSE(-1, 1),
     DIAGONAL_ASCENDING(1, -1),
+    DIAGONAL_ASCENDING_REVERSE(-1, -1),
     ;
 
     private int xIncrement;

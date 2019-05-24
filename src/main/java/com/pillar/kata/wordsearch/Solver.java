@@ -23,12 +23,12 @@ public class Solver {
     private List<String> searchGrid(List<String> grid, String wordToFind, SearchStrategy searchStrategy) {
         List<String> foundWords = new ArrayList<>();
         for (var x = 0; x < grid.size(); x++) {
-            // Validate X out of bounds
+            // Skip this column if X will be out of bounds to find the entire word
             if (x + wordToFind.length() * searchStrategy.xIncrement() > grid.size() || x + wordToFind.length() * searchStrategy.xIncrement() + 1 < 0) {
                 continue;
             }
             for (var y = 0; y < grid.size(); y++) {
-                // Validate Y out of bounds
+                // Skip this row if Y will be out of bounds to find the entire word
                 if (y + wordToFind.length() * searchStrategy.yIncrement() > grid.size() || y + wordToFind.length() * searchStrategy.yIncrement() + 1 < 0) {
                     continue;
                 }

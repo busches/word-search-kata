@@ -31,8 +31,7 @@ public class Solver {
 
     private Optional<String> searchGrid(List<String> grid, String wordToFind, SearchStrategy searchStrategy) {
         return IntStream.range(0, grid.size())
-                .filter(x -> x + wordToFind.length() * searchStrategy.xIncrement() <= grid.size())
-                .filter(x -> x + wordToFind.length() * searchStrategy.xIncrement() >= -1)
+                .filter(x -> searchIsInsideGrid(grid, wordToFind, x, searchStrategy.xIncrement()))
                 .mapToObj(x -> loopX(grid, wordToFind, searchStrategy, x))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
@@ -41,8 +40,7 @@ public class Solver {
 
     private Optional<String> loopX(List<String> grid, String wordToFind, SearchStrategy searchStrategy, int x) {
         return IntStream.range(0, grid.size())
-                .filter(y -> y + wordToFind.length() * searchStrategy.yIncrement() <= grid.size())
-                .filter(y -> y + wordToFind.length() * searchStrategy.yIncrement() >= -1)
+                .filter(y -> searchIsInsideGrid(grid, wordToFind, y, searchStrategy.yIncrement()))
                 .mapToObj(y -> loopY(grid, wordToFind, searchStrategy, x, y))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
@@ -60,5 +58,9 @@ public class Solver {
                         String.format("(%s,%s)", x + letterPosition * searchStrategy.xIncrement(), y + letterPosition * searchStrategy.yIncrement()))
                 .collect(Collectors.joining(",")))
                 : Optional.empty();
+    }
+
+    private boolean searchIsInsideGrid(List<String> grid, String wordToFind, int coordinate, int increment) {
+        return coordinate + wordToFind.length() * increment <= grid.size() && coordinate + wordToFind.length() * increment >= -1;
     }
 }

@@ -25,22 +25,18 @@ public class Solver {
     private Optional<String> searchGrid(List<String> grid, String wordToFind, SearchStrategy searchStrategy) {
         return IntStream.range(0, grid.size())
                 .filter(x -> searchIsInsideGrid(grid, wordToFind, x, searchStrategy.xIncrement()))
-                .mapToObj(x -> loopX(grid, wordToFind, searchStrategy, x))
+                .mapToObj(x -> IntStream.range(0, grid.size())
+                        .filter(y -> searchIsInsideGrid(grid, wordToFind, y, searchStrategy.yIncrement()))
+                        .mapToObj(y -> searchAtCoordinates(grid, wordToFind, searchStrategy, x, y))
+                        .filter(Optional::isPresent)
+                        .map(Optional::get)
+                        .findFirst())
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .findFirst();
     }
 
-    private Optional<String> loopX(List<String> grid, String wordToFind, SearchStrategy searchStrategy, int x) {
-        return IntStream.range(0, grid.size())
-                .filter(y -> searchIsInsideGrid(grid, wordToFind, y, searchStrategy.yIncrement()))
-                .mapToObj(y -> loopY(grid, wordToFind, searchStrategy, x, y))
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .findFirst();
-    }
-
-    private Optional<String> loopY(List<String> grid, String wordToFind, SearchStrategy searchStrategy, int x, int y) {
+    private Optional<String> searchAtCoordinates(List<String> grid, String wordToFind, SearchStrategy searchStrategy, int x, int y) {
         var wordFound = IntStream.range(0, wordToFind.length())
                 .allMatch(letterPosition ->
                         grid.get(y + letterPosition * searchStrategy.yIncrement()).split(",")[x + letterPosition * searchStrategy.xIncrement()]

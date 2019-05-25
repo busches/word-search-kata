@@ -1,7 +1,6 @@
 package com.pillar.kata.wordsearch;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -16,16 +15,10 @@ public class Solver {
 
     private List<String> searchWords(WordSearch wordSearch, List<String> grid) {
         return Arrays.stream(wordSearch.getWordsToSearch())
-                .map(wordToFind -> searchByStrategy(wordToFind, grid))
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList());
-    }
-
-    private List<String> searchByStrategy(String wordToFind, List<String> grid) {
-        return Arrays.stream(SearchStrategy.values())
-                .map(searchStrategy -> searchGrid(grid, wordToFind, searchStrategy))
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+                .flatMap(wordToFind -> Arrays.stream(SearchStrategy.values())
+                        .map(searchStrategy -> searchGrid(grid, wordToFind, searchStrategy))
+                        .filter(Optional::isPresent)
+                        .map(Optional::get))
                 .collect(Collectors.toList());
     }
 

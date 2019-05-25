@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Solver {
     public List<String> solve(WordSearch wordSearch) {
@@ -16,24 +17,20 @@ public class Solver {
     private List<String> searchWords(WordSearch wordSearch, List<String> grid) {
         return Arrays.stream(wordSearch.getWordsToSearch())
                 .flatMap(wordToFind -> Arrays.stream(SearchStrategy.values())
-                        .map(searchStrategy -> searchGrid(grid, wordToFind, searchStrategy))
+                        .flatMap(searchStrategy -> searchGrid(grid, wordToFind, searchStrategy))
                         .filter(Optional::isPresent)
                         .map(Optional::get))
                 .collect(Collectors.toList());
     }
 
-    private Optional<String> searchGrid(List<String> grid, String wordToFind, SearchStrategy searchStrategy) {
+    private Stream<Optional<String>> searchGrid(List<String> grid, String wordToFind, SearchStrategy searchStrategy) {
         return IntStream.range(0, grid.size())
                 .filter(x -> searchIsInsideGrid(grid, wordToFind, x, searchStrategy.xIncrement()))
                 .mapToObj(x -> IntStream.range(0, grid.size())
                         .filter(y -> searchIsInsideGrid(grid, wordToFind, y, searchStrategy.yIncrement()))
                         .mapToObj(y -> searchAtCoordinates(grid, wordToFind, searchStrategy, x, y))
-                        .filter(Optional::isPresent)
-                        .map(Optional::get)
-                        .findFirst())
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .findFirst();
+                        .filter(Optional::isPresent))
+                .flatMap(optionalStream -> optionalStream);
     }
 
     private Optional<String> searchAtCoordinates(List<String> grid, String wordToFind, SearchStrategy searchStrategy, int x, int y) {

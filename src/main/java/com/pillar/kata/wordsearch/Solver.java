@@ -11,13 +11,9 @@ public class Solver {
     public List<String> solve(WordSearch wordSearch) {
 
         // This should likely return a Map<String, List<Coordinate>> but keeping it simple for now
-        return searchWords(wordSearch, wordSearch.getGrid());
-    }
-
-    private List<String> searchWords(WordSearch wordSearch, List<String> grid) {
         return Arrays.stream(wordSearch.getWordsToSearch())
                 .flatMap(wordToFind -> Arrays.stream(SearchStrategy.values())
-                        .flatMap(searchStrategy -> searchGrid(grid, wordToFind, searchStrategy))
+                        .flatMap(searchStrategy -> searchGrid(wordSearch.getGrid(), wordToFind, searchStrategy))
                         .filter(Optional::isPresent)
                         .map(Optional::get))
                 .collect(Collectors.toList());

@@ -28,9 +28,8 @@ public class Solver {
                 .filter(x -> searchIsInsideGrid(grid, wordToFind, x, searchStrategy.xIncrement()))
                 .mapToObj(x -> IntStream.range(0, grid.size())
                         .filter(y -> searchIsInsideGrid(grid, wordToFind, y, searchStrategy.yIncrement()))
-                        .mapToObj(y -> searchAtCoordinates(grid, wordToFind, searchStrategy, x, y))
-                        .filter(Optional::isPresent))
-                .flatMap(optionalStream -> optionalStream);
+                        .mapToObj(y -> searchAtCoordinates(grid, wordToFind, searchStrategy, x, y)))
+                .flatMap(optionalStream -> optionalStream); // flatMapToObj doesn't exist, so we must make two calls
     }
 
     private Optional<String> searchAtCoordinates(List<String> grid, String wordToFind, SearchStrategy searchStrategy, int x, int y) {

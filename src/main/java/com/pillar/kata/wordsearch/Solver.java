@@ -31,7 +31,6 @@ public class Solver {
                 .collect(Collectors.toList());
     }
 
-
     private Optional<String> searchGrid(List<String> grid, String wordToFind, SearchStrategy searchStrategy) {
         return IntStream.range(0, grid.size())
                 .filter(x -> x + wordToFind.length() * searchStrategy.xIncrement() <= grid.size())
@@ -42,30 +41,31 @@ public class Solver {
     }
 
     private String loopX(List<String> grid, String wordToFind, SearchStrategy searchStrategy, int x) {
-        for (var y = 0; y < grid.size(); y++) {
-            // Skip this row if Y will be out of bounds to find the entire word
-            if (y + wordToFind.length() * searchStrategy.yIncrement() > grid.size() || y + wordToFind.length() * searchStrategy.yIncrement() + 1 < 0) {
-                continue;
-            }
+        return IntStream.range(0, grid.size())
+                .filter(y -> y + wordToFind.length() * searchStrategy.yIncrement() <= grid.size())
+                .filter(y -> y + wordToFind.length() * searchStrategy.yIncrement() + 1 >= 0)
+                .mapToObj(y -> loopY(grid, wordToFind, searchStrategy, x, y))
+                .collect(Collectors.joining());
+    }
 
-            var foundWord = true;
-            var coordinates = "";
-            for (var letterPosition = 0; letterPosition < wordToFind.length(); letterPosition++) {
-                var currentX = x + letterPosition * searchStrategy.xIncrement();
-                var currentY = y + letterPosition * searchStrategy.yIncrement();
-                if (grid.get(currentY).split(",")[currentX].equals(wordToFind.substring(letterPosition, letterPosition + 1))) {
-                    coordinates += String.format("(%s,%s)", currentX, currentY);
-                    if (letterPosition != wordToFind.length() - 1) {
-                        coordinates += ",";
-                    }
-                } else {
-                    foundWord = false;
-                    break;
+    private String loopY(List<String> grid, String wordToFind, SearchStrategy searchStrategy, int x, int y) {
+        var foundWord = true;
+        var coordinates = "";
+        for (var letterPosition = 0; letterPosition < wordToFind.length(); letterPosition++) {
+            var currentX = x + letterPosition * searchStrategy.xIncrement();
+            var currentY = y + letterPosition * searchStrategy.yIncrement();
+            if (grid.get(currentY).split(",")[currentX].equals(wordToFind.substring(letterPosition, letterPosition + 1))) {
+                coordinates += String.format("(%s,%s)", currentX, currentY);
+                if (letterPosition != wordToFind.length() - 1) {
+                    coordinates += ",";
                 }
+            } else {
+                foundWord = false;
+                break;
             }
-            if (foundWord) {
-                return String.format("%s: %s", wordToFind, coordinates);
-            }
+        }
+        if (foundWord) {
+            return String.format("%s: %s", wordToFind, coordinates);
         }
         return "";
     }
